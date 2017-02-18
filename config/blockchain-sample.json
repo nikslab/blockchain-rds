@@ -4,5 +4,5 @@
     "db_user": "writer",
     "db_password": "pwd123",
     "hashes_table": "hashes",
-    "blockchain_table": "blockchain"
+    "headers_table": "headers"
 }
