@@ -9,7 +9,7 @@ This does not solve the problem of a bad transaction injection, but does provide
 
 
 ## blockchain.sql
-We keep the blockchain as a MySQL database.  It needs two tables: *transactions* and *blocks* as defined in **blockchain.sql** which will help you create them. We are using similar terminology for the table names and are mimicking the Bitcoin blockchain headers simply for simplicity and clarity about what is happening.  Your source data may not be *transactions* at all: it could be e-mail messages or a server log.  
+We keep the blockchain as a MySQL database.  It needs two tables: *hashes* and *blocks* as defined in **blockchain.sql** which will help you create them. 
 
 You can keep these two blockchain tables in the same database as your source data, or a separate database on the same server, or a separate database on a separate server or as part of a bigger database on a separate server.  There are little to no security considerations for these two tables, other than you don't want to lose them.  There is no point in tampering with these tables since the hashes have to match the source data.
 
