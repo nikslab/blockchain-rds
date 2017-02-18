@@ -1,0 +1,8 @@
+{
+    "host": "locahost",
+    "db_name": "big_database",
+    "db_user": "reader",
+    "db_password": "pwd123",
+    "db_table": "transactions",
+    "table_key": "id"
+}
