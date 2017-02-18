@@ -1,5 +1,11 @@
 # blockchain-rds
-Blockchain your RDS table records with Bitcoin-style Proof of Work to ensure data is complete and has not been tampered with
+Blockchain your RDS table records with Bitcoin-style Proof of Work to ensure data is complete and has not been tampered with.  
+This does not solve the problem of a bad transaction injection, but does provide more assurance that history has not been tampered with.  How much assurance?  That depends on the amount of Proof of Work you do for each block, which is entirely up to you.  More work of course would cost more money.  How much you should spend depends on what you are protecting.  A billion dollars?  Spend a hundred thousand dollars for hashing servers.
+
+
+## Concepts
+*Source table* is the Mysql data table whose history you want to make immutable.
+
 
 ## blockchain.sql
 We keep the blockchain as a MySQL database.  It needs two tables: *transactions* and *blocks* as defined in **blockchain.sql** which will help you create them. We are using similar terminology for the table names and are mimicking the Bitcoin blockchain headers simply for simplicity and clarity about what is happening.  Your source data may not be *transactions* at all: it could be e-mail messages or a server log.  
@@ -21,7 +27,7 @@ Details of Bitcoin blockchain hashing: https://en.bitcoin.it/wiki/Block_hashing_
 
 
 ### validator.php
-Checks integrity of database.  Returns *0* (check failed) or *1* (check passed).  You want to run this often.  This is a bit of security risk in that the source code of this script is manipulated to return *1* when a check is failing.  I mean, a hacker could replace this script with:
+Checks integrity of database.  Returns *0* (check failed) or *1* (check passed).  You can run this at audit time or even regularly.  There is a bit of security risk that the source code of this script is manipulated to return *1* when a check is failing.  A hacker could replace this script with:
 
 ```php
 #!/usr/bin/php
@@ -30,7 +36,7 @@ print "1\n";
 ?>
 ```
 
-So you want to be careful about that.
+So if you are running this on a server regularly as a way to ensure that your database is not compromised, and if the hacker who compromised your database is able to modify this script as well, you may not catch the compromise right away.
 
 
 ### agent.php
