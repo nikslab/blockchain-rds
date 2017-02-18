@@ -1,6 +1,7 @@
 # blockchain-rds
-Blockchain your RDS table records with Bitcoin-style Proof of Work to ensure data is complete and has not been tampered with.  
-This does not solve the problem of a bad transaction injection, but does provide more assurance that history has not been tampered with.  How much assurance?  That depends on the amount of Proof of Work you do for each block, which is entirely up to you.  More work of course would cost more money.  How much you should spend depends on what you are protecting.  A billion dollars?  Spend a hundred thousand dollars for hashing servers.
+Blockchain your RDS table records with Bitcoin-style Proof of Work to ensure data is complete and has not been tampered with. 
+
+This does not solve the problem of a bad transaction injection, but does provide more assurance that history has not been tampered with.  How much assurance?  That depends on the amount of Proof of Work you do for each block, which is entirely up to you.  More work of course would cost more money.  How much you should spend depends on what you are protecting.  A billion dollars?  Then spend a few hundred thousand dollars for hashing servers.  If you are protecting $100K USD then one average  server doing block mining is probably just fine.
 
 
 ## Concepts
