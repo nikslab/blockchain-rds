@@ -12,8 +12,8 @@ This script does Proof of Work and creates blocks the way Bitcoin mining works. 
 
 Details of Bitcoin blockchain hashing: https://en.bitcoin.it/wiki/Block_hashing_algorithm
 
-### checker.php
-Checks integrity of hashes.  Returns 0 (check failed) or 1 (check passed).
+### validator.php
+Checks integrity of database.  Returns 0 (check failed) or 1 (check passed).
 
 ### agent.php
 Runs one of the above scripts in a loop over one minute, then dies.  Should be started as a cron job every minute.
