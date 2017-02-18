@@ -1,6 +1,8 @@
 # blockchain-rds
 Blockchain your RDS table records with Bitcoin-style Proof of Work to ensure data is complete and has not been tampered with
 
+## blockchain.sql
+We keep the blockchain as a MySQL database.  It needs two two tables: *hashes* and *headers* as defined in **blockchain.sql** which will help you create them.  You can keep this in the same database as your source data, or a separate database on the same server, or a separate database on a separate server or as part of a bigger database on a separate server.  There are little to no security considerations for these two tables, other than you don't want to lose them.
 
 ## Scripts
 
