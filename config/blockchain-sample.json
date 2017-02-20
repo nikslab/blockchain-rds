@@ -1,8 +1,8 @@
 {
-    "host": "locahost",
+    "db_host": "locahost",
     "db_name": "blockchain",
     "db_user": "writer",
     "db_password": "pwd123",
-    "hashes_table": "hashes",
-    "headers_table": "headers"
+    "db_hashes_table": "hashes",
+    "db_blocks_table": "blocks"
 }
