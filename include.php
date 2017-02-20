@@ -26,7 +26,7 @@ $pdo_source = new PDO($dsn, $user, $pass, $opt);
 
 // Read in config/blockchain.json
 $blockchain_json = file_get_contents("config/blockchain.json");
-$blockchain = json_decode($source_json, true);
+$blockchain = json_decode($blockchain_json, true);
 
 $host = $blockchain['db_host'];
 $db   = $blockchain['db_name'];
