@@ -12,7 +12,6 @@ $hashes_table = $blockchain['db_hashes_table'];
 $count = 0;
 foreach ($RECORDS as $key=>$record) {
     $count++;
-    $hash = hashData($record);
     $insert = "
         insert into $hashes_table
         (source_key, hash)
@@ -21,7 +20,7 @@ foreach ($RECORDS as $key=>$record) {
     ";
     $result = $pdo_blockchain->query($insert);
 }
-report(1, "Inserted $count hashes into 'hashes' table.");
+report(1, "Inserted $count hashes into hashes table in the blockchain.");
 
 report(1, "Hasher iteration done.");
 exit(0);
@@ -30,7 +29,7 @@ exit(0);
 /*
  * Loads complete transactions from source
  *
- * @return array            [primary key] = record as one long string
+ * @return array            [primary key] = hashed record
  *
  */
 function loadUnhashed()
