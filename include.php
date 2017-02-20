@@ -42,6 +42,37 @@ $opt = [
 ];
 $pdo_blockchain = new PDO($dsn, $user, $pass, $opt);
 
+
+/*
+ * Convert a record given as array to a string.  It's important we do this
+ * consistently so that's why it's pulled into a separate function.
+ * We use PHP's serialize function to do this, but you can do it differently.
+ * Since this is used for hashing data, it actually doesn't matter how you
+ * do it, as long as you do it consistently.
+ *
+ * @param array $record             Associative array of $field=>$value
+ * @return string                   Array coverted to string
+ */
+function record2string($record)
+{
+    $result = serialize($record);
+    return $result;
+}
+
+
+/*
+ * Hashes input data.  We use double sha256.
+ *
+ * @param string $string    Data to be hashed
+ * @return string           Hashed data
+ *
+ */
+function hashData($string)
+{
+    $hash = hash('sha256', hash('sha256', $string));
+    return $hash;
+}
+
 /*
  * Debuging.  Will print $string to screen if $level is greater global $DEBUG
  *

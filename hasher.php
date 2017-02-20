@@ -43,12 +43,13 @@ function loadUnhashed()
 
     // Get the id of the highest item already hashed
     $select = "
-        select max(source_key)
+        select max(source_key) as m
           from $hashes_table
          where table_name = '$source_table'
     ";
     $result = $pdo_blockchain->query($select);
-    $max_source_key = "";
+    $queryData = $result->fetch(PDO::FETCH_ASSOC);
+    $max_source_key = $queryData["m"];
 
     // Select max 1000 of source table keys
     $select = "
@@ -57,21 +58,13 @@ function loadUnhashed()
          limit 1000
     ";
     $result = $pdo_source->query($select);
+    $RECORDS = [];
+    while ($queryData = $result->fetch(PDO::FETCH_ASSOC)) {
+        $id = $queryData["$db_table_key"];
+        $data = hashData(record2string($queryData));
+        $RECORDS["$id"] = $data;
+    }
 
-}
-
-
-/*
- * Hashes input data
- *
- * @param string $string    Data to be hashed
- * @return string           Hashed data
- *
- */
-function hashData($string)
-{
-    $hash = hash('sha256', $string);
-    return $hash;
 }
 
 ?>
