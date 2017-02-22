@@ -1,5 +1,5 @@
 {
-    "db_driver": "mssql",
+    "db_driver": "sqlsrv",
     "db_host": "localhost",
     "db_port": "34333",
     "db_name": "big_database",

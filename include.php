@@ -12,10 +12,10 @@ $source = json_decode($source_json, true);
 
 $driver = $source['db_driver'];
 $host = $source['db_host'];
-$port = $source['port'];
+$port = $source['db_port'];
 $db   = $source['db_name'];
 $user = $source['db_user'];
-$pass = $source['db_pass'];
+$pass = $source['db_password'];
 $charset = 'utf8';
 
 $dsn = "$driver:host=$host;port=$port;dbname=$db;charset=$charset";
@@ -32,10 +32,10 @@ $blockchain = json_decode($blockchain_json, true);
 
 $driver = $blockchain['db_driver'];
 $host = $blockchain['db_host'];
-$port = $blockchain['port'];
+$port = $blockchain['db_port'];
 $db   = $blockchain['db_name'];
 $user = $blockchain['db_user'];
-$pass = $blockchain['db_pass'];
+$pass = $blockchain['db_password'];
 $charset = 'utf8';
 
 $dsn = "$driver:host=$host;dbname=$db;charset=$charset";
