@@ -1,5 +1,7 @@
 {
+    "db_driver": "mysql",
     "db_host": "locahost",
+    "db_port": "3306",
     "db_name": "blockchain",
     "db_user": "writer",
     "db_password": "pwd123",

@@ -1,6 +1,6 @@
 <?php
 
-$DEBUG = 3; // Global debug level.  0 means no debug, 1=info, etc.
+$DEBUG = 3; // Global debug level.  0 means no debug, 1=info, etc. higher more info
 
 /*
  * Connect to databases
@@ -10,13 +10,15 @@ $DEBUG = 3; // Global debug level.  0 means no debug, 1=info, etc.
 $source_json = file_get_contents("config/source.json");
 $source = json_decode($source_json, true);
 
+$driver = $source['db_driver'];
 $host = $source['db_host'];
+$port = $source['port'];
 $db   = $source['db_name'];
 $user = $source['db_user'];
 $pass = $source['db_pass'];
 $charset = 'utf8';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$dsn = "$driver:host=$host;port=$port;dbname=$db;charset=$charset";
 $opt = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -28,13 +30,15 @@ $pdo_source = new PDO($dsn, $user, $pass, $opt);
 $blockchain_json = file_get_contents("config/blockchain.json");
 $blockchain = json_decode($blockchain_json, true);
 
+$driver = $blockchain['db_driver'];
 $host = $blockchain['db_host'];
+$port = $blockchain['port'];
 $db   = $blockchain['db_name'];
 $user = $blockchain['db_user'];
 $pass = $blockchain['db_pass'];
 $charset = 'utf8';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$dsn = "$driver:host=$host;dbname=$db;charset=$charset";
 $opt = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

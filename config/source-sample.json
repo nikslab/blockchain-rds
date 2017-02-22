@@ -1,8 +1,10 @@
 {
-    "db_host": "locahost",
+    "db_driver": "mssql",
+    "db_host": "localhost",
+    "db_port": "34333",
     "db_name": "big_database",
     "db_user": "reader",
     "db_password": "pwd123",
     "db_table": "transactions",
-    "db_table_key": "id",
+    "db_table_key": "id"
 }

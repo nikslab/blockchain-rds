@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/php
 <?php
 
 require_once("include.php");
