@@ -1,5 +1,6 @@
 {
     "db_driver": "sqlsrv",
+    "db_id": "My Important Database",
     "db_host": "localhost",
     "db_port": "34333",
     "db_name": "big_database",

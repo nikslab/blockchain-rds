@@ -1,6 +1,11 @@
 <?php
+/*
+ * https://github.com/nikslab/blockchain-rds
+ * Version 1.0: Nik Stankovic February 2017
+ *
+ */
 
-$DEBUG = 3; // Global debug level.  0 means no debug, 1=info, etc. higher more info
+$DEBUG = 3; // Global debug level.  0 means no debug, higher more info.  Used for logging.
 
 /*
  * Connect to databases
@@ -25,6 +30,7 @@ $opt = [
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 $pdo_source = new PDO($dsn, $user, $pass, $opt);
+logThis(3, "Connected to source database");
 
 // Read in config/blockchain.json
 $blockchain_json = file_get_contents("config/blockchain.json");
@@ -45,6 +51,7 @@ $opt = [
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 $pdo_blockchain = new PDO($dsn, $user, $pass, $opt);
+logThis(3, "Connected to blockchain database");
 
 
 /*
@@ -80,16 +87,17 @@ function hashData($string)
 /*
  * Debuging.  Will print $string to screen if $level is greater global $DEBUG
  *
- * @param number $level         Debug level of this message
- * @param string $string        Debug message
+ * @param integer $level    Debug level of this message
+ * @param string $string    Debug message
  *
  */
-function report($level, $string)
+function logThis($level, $string)
 {
     global $DEBUG;
 
+    // Printing it out to stdout, but if you want to log, change it here
     $stamp = date('Y-m-d H:i:s', time());
-    if ($level >= $DEBUG) {
-        print $stamp . " | " . $debug . " | " . $string . "\n";
+    if ($level <= $DEBUG) {
+        print $stamp . " | " . $level . " | " . $string . "\n";
     }
 }

@@ -1,6 +1,6 @@
 {
     "db_driver": "mysql",
-    "db_host": "locahost",
+    "db_host": "localhost",
     "db_port": "3306",
     "db_name": "blockchain",
     "db_user": "writer",

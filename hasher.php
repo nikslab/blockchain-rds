@@ -1,38 +1,54 @@
 #!/usr/bin/php
 <?php
+/*
+ * https://github.com/nikslab/blockchain-rds
+ * Version 1.0: Nik Stankovic February 2017
+ *
+ */
 
 require_once("include.php");
 
-$RECORDS = loadUnhashed();
+$limit = 1000;
+$RECORDS = hashUnhashed($limit);
 $count = count($RECORDS);
-report(1, "Loaded $count records.");
+logThis(1, "Loaded $count records.");
 
 $hashes_table = $blockchain['db_hashes_table'];
 
 $count = 0;
-foreach ($RECORDS as $key=>$record) {
+$TRANSACTION = [];
+$database_id = $source['db_id'];
+$source_table = $source['db_table'];
+foreach ($RECORDS as $key=>$hash) {
     $count++;
     $insert = "
         insert into $hashes_table
-        (source_key, hash)
+        (inserted_at, database_id, table_name, source_key, hash)
         values
-        ('$key', '$hash');
+        (now(), '$database_id', '$source_table', '$key', '$hash');
     ";
-    $result = $pdo_blockchain->query($insert);
+    $TRANSACTION[] = $insert;
 }
-report(1, "Inserted $count hashes into hashes table in the blockchain.");
+logThis(2, "Created blockchain database transaction with $count hashes, now running it.");
 
-report(1, "Hasher iteration done.");
+$pdo_blockchain->beginTransaction();
+foreach ($TRANSACTION as $statement) {
+    $result = $pdo_blockchain->query($statement);
+}
+$pdo_blockchain->commit();
+
+logThis(2, "Hasher iteration done.");
 exit(0);
 
+////////////////////////////////////////////////////////////////////////////////
 
 /*
- * Loads complete transactions from source
+ * Loads complete transactions from source and hashes them
  *
  * @return array            [primary key] = hashed record
  *
  */
-function loadUnhashed()
+function hashUnhashed($limit)
 {
     global $pdo_source, $pdo_blockchain, $source, $blockchain;
 
@@ -49,20 +65,27 @@ function loadUnhashed()
     $result = $pdo_blockchain->query($select);
     $queryData = $result->fetch(PDO::FETCH_ASSOC);
     $max_source_key = $queryData["m"];
+    if ($max_source_key == "") { $max_source_key = 0; }
+    logThis(3, "Max source key is $max_source_key");
 
-    // Select max 1000 of source table keys
+    // Select max $limit of source table keys
+    logThis(3, "Getting $limit records from source");
     $select = "
-        select from $source_table
-         where $db_table_key > $max_source_key;
-         limit 1000
+        select top $limit * from $source_table
+         where $source_table_key > $max_source_key
     ";
     $result = $pdo_source->query($select);
+
+    // Hash them
     $RECORDS = [];
     while ($queryData = $result->fetch(PDO::FETCH_ASSOC)) {
-        $id = $queryData["$db_table_key"];
+        $id = $queryData["$source_table_key"];
+        logThis(3, "Hashing $id...");
         $data = hashData(record2string($queryData));
         $RECORDS["$id"] = $data;
     }
+
+    return $RECORDS;
 
 }
 
