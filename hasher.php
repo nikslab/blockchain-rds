@@ -15,6 +15,7 @@ logThis(1, "Loaded $count records.");
 
 $hashes_table = $blockchain['db_hashes_table'];
 
+// Insert hashes into blockchain hashes table (create db transaction)
 $count = 0;
 $TRANSACTION = [];
 $database_id = $source['db_id'];
@@ -31,6 +32,7 @@ foreach ($RECORDS as $key=>$hash) {
 }
 logThis(2, "Created blockchain database transaction with $count hashes, now running it.");
 
+// Run transaction
 $pdo_blockchain->beginTransaction();
 foreach ($TRANSACTION as $statement) {
     $result = $pdo_blockchain->query($statement);
@@ -58,7 +60,7 @@ function hashUnhashed($limit)
 
     // Get the id of the highest item already hashed
     $select = "
-        select max(source_key) as m
+        select max(cast(source_key as UNSIGNED)) as m
           from $hashes_table
          where table_name = '$source_table'
     ";
@@ -78,12 +80,16 @@ function hashUnhashed($limit)
 
     // Hash them
     $RECORDS = [];
+    $MERKLE = [];
     while ($queryData = $result->fetch(PDO::FETCH_ASSOC)) {
         $id = $queryData["$source_table_key"];
         logThis(3, "Hashing $id...");
         $data = hashData(record2string($queryData));
         $RECORDS["$id"] = $data;
+        $MERKLE[] = $data;
     }
+    $root = merkleRoot($MERKLE);
+    logThis(1, "Merkle root is $root");
 
     return $RECORDS;
 
